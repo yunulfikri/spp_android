@@ -1,18 +1,40 @@
 import 'package:flutter/material.dart';
-
 import 'Models/userModels.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
-  final User data;
-  HomePage({
-    this.data,
-  });
+  final VoidCallback signOut;
+  HomePage(
+    this.signOut,
+  );
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  signOut() {
+    widget.signOut();
+  }
+
+  String nisn = "", name = "", jurusan = '', kelas = '', alamat = '';
+
+  getPref() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      nisn = preferences.getString("nisn");
+      name = preferences.getString("nama_lengkap");
+      jurusan = preferences.getString("jurusan");
+      kelas = preferences.getString("kelas");
+      alamat = preferences.getString("alamat");
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getPref();
+  }
 
   bool sort = true;
 
@@ -29,8 +51,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var item = widget.data;
-    var nisn = item.nisn.toString();
+    // var item = widget.data;
+    // var nisn = item.nisn.toString();
     return Scaffold(
       key: _scaffoldKey,
       drawer: Drawer(
@@ -39,15 +61,13 @@ class _HomePageState extends State<HomePage> {
           children: <Widget>[
             UserAccountsDrawerHeader(
               accountName: Text(
-                item.nama,
+                "$name",
                 style: TextStyle(fontSize: 18),
               ),
-              accountEmail: Text(nisn),
+              accountEmail: Text('$nisn'),
               currentAccountPicture: CircleAvatar(
                 backgroundImage: AssetImage(
-                  item.imageUrl != null
-                      ? item.imageUrl
-                      : 'images/placeholder.png',
+                  'images/placeholder.png',
                 ),
               ),
               decoration: BoxDecoration(
@@ -72,7 +92,7 @@ class _HomePageState extends State<HomePage> {
             ListTile(
               leading: Icon(Icons.exit_to_app),
               title: Text('Logout'),
-              onTap: () => {Navigator.of(context).pop()},
+              onTap: () => {signOut()},
             ),
           ],
         ),
@@ -112,9 +132,7 @@ class _HomePageState extends State<HomePage> {
                           // color: Colors.greenAccent,
                           borderRadius: BorderRadius.circular(50),
                           image: DecorationImage(
-                            image: AssetImage(item.imageUrl != null
-                                ? item.imageUrl
-                                : 'images/placeholder.png'),
+                            image: AssetImage('images/placeholder.png'),
                             fit: BoxFit.fitHeight,
                           ),
                         ),
@@ -142,7 +160,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                               Text(
-                                item.nama,
+                                '$name',
                                 style: TextStyle(fontSize: 15),
                               ),
                             ],
@@ -160,7 +178,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                               Text(
-                                item.jurusan,
+                                '$jurusan',
                                 style: TextStyle(fontSize: 15),
                               ),
                             ],
@@ -178,7 +196,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                               Text(
-                                item.kelas,
+                                '$kelas',
                                 style: TextStyle(fontSize: 15),
                               ),
                             ],
@@ -221,8 +239,10 @@ class _HomePageState extends State<HomePage> {
                                 months.check == true
                                     ? Icons.check
                                     : Icons.close,
-                                    size: 30,
-                                    color: months.check == true ? Colors.blue[900] : Colors.red,
+                                size: 30,
+                                color: months.check == true
+                                    ? Colors.blue[900]
+                                    : Colors.red,
                               ),
                             ),
                           ]),
