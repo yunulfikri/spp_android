@@ -1,19 +1,21 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:spp_app/Home.dart';
+import 'package:spp_app/main.dart';
 
 class Loader extends StatefulWidget {
+  
   @override
   _LoaderState createState() => _LoaderState();
 }
 
 class _LoaderState extends State<Loader> with SingleTickerProviderStateMixin {
-  Animation controller;
+  AnimationController controller;
   Animation<double> animation_rotation;
   Animation<double> animation_radius_in;
   Animation<double> animation_radius_out;
 
-  final double initialRadius = 30.0;
+  final double initialRadius = 25.0;
 
   double radius = 0.0;
 
@@ -23,7 +25,20 @@ class _LoaderState extends State<Loader> with SingleTickerProviderStateMixin {
     super.initState();
     controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 5),
+      duration: Duration(seconds: 3),
+    );
+    animation_rotation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(
+      CurvedAnimation(
+        parent: controller,
+        curve: Interval(
+          0.0,
+          1.0,
+          curve: Curves.linear,
+        ),
+      ),
     );
     animation_radius_in = Tween<double>(begin: 1.0, end: 0.0).animate(
       CurvedAnimation(
@@ -54,7 +69,8 @@ class _LoaderState extends State<Loader> with SingleTickerProviderStateMixin {
         }
       });
     });
-    // controller.repeat();
+    // controller.repeat(period: Duration(seconds: 5));
+    controller.repeat();
   }
 
   @override
@@ -63,76 +79,79 @@ class _LoaderState extends State<Loader> with SingleTickerProviderStateMixin {
       width: 100.0,
       height: 100.0,
       child: Center(
-        child: Stack(
-          children: <Widget>[
-            Dot(
-              radius: 30.0,
-              color: Colors.black38,
-            ),
-            Transform.translate(
-              offset: Offset(radius * cos(pi / 4), radius * sin(pi / 4)),
-              child: Dot(
-                radius: 6.0,
-                color: Colors.redAccent,
+        child: RotationTransition(
+          turns: animation_rotation,
+          child: Stack(
+            children: <Widget>[
+              Dot(
+                radius: 20.0,
+                color: Colors.black38,
               ),
-            ),
-            Transform.translate(
-              offset:
-                  Offset(radius * cos(2 * pi / 4), radius * sin(2 * pi / 4)),
-              child: Dot(
-                radius: 6.0,
-                color: Colors.redAccent,
+              Transform.translate(
+                offset: Offset(radius * cos(pi / 4), radius * sin(pi / 4)),
+                child: Dot(
+                  radius: 8.0,
+                  color: Colors.redAccent,
+                ),
               ),
-            ),
-            Transform.translate(
-              offset:
-                  Offset(radius * cos(3 * pi / 4), radius * sin(3 * pi / 4)),
-              child: Dot(
-                radius: 6.0,
-                color: Colors.redAccent,
+              Transform.translate(
+                offset:
+                    Offset(radius * cos(2 * pi / 4), radius * sin(2 * pi / 4)),
+                child: Dot(
+                  radius: 7.0,
+                  color: Colors.redAccent,
+                ),
               ),
-            ),
-            Transform.translate(
-              offset:
-                  Offset(radius * cos(4 * pi / 4), radius * sin(4 * pi / 4)),
-              child: Dot(
-                radius: 6.0,
-                color: Colors.redAccent,
+              Transform.translate(
+                offset:
+                    Offset(radius * cos(3 * pi / 4), radius * sin(3 * pi / 4)),
+                child: Dot(
+                  radius: 8.0,
+                  color: Colors.redAccent,
+                ),
               ),
-            ),
-            Transform.translate(
-              offset:
-                  Offset(radius * cos(5 * pi / 4), radius * sin(5 * pi / 4)),
-              child: Dot(
-                radius: 6.0,
-                color: Colors.redAccent,
+              Transform.translate(
+                offset:
+                    Offset(radius * cos(4 * pi / 4), radius * sin(4 * pi / 4)),
+                child: Dot(
+                  radius: 7.0,
+                  color: Colors.redAccent,
+                ),
               ),
-            ),
-            Transform.translate(
-              offset:
-                  Offset(radius * cos(6 * pi / 4), radius * sin(6 * pi / 4)),
-              child: Dot(
-                radius: 6.0,
-                color: Colors.redAccent,
+              Transform.translate(
+                offset:
+                    Offset(radius * cos(5 * pi / 4), radius * sin(5 * pi / 4)),
+                child: Dot(
+                  radius: 8.0,
+                  color: Colors.redAccent,
+                ),
               ),
-            ),
-            Transform.translate(
-              offset:
-                  Offset(radius * cos(7 * pi / 4), radius * sin(7 * pi / 4)),
-              child: Dot(
-                radius: 6.0,
-                color: Colors.redAccent,
+              Transform.translate(
+                offset:
+                    Offset(radius * cos(6 * pi / 4), radius * sin(6 * pi / 4)),
+                child: Dot(
+                  radius: 7.0,
+                  color: Colors.redAccent,
+                ),
               ),
-            ),
-            Transform.translate(
-              offset:
-                  Offset(radius * cos(8 * pi / 4), radius * sin(8 * pi / 4)),
-              child: Dot(
-                radius: 6.0,
-                color: Colors.redAccent,
+              Transform.translate(
+                offset:
+                    Offset(radius * cos(7 * pi / 4), radius * sin(7 * pi / 4)),
+                child: Dot(
+                  radius: 8.0,
+                  color: Colors.redAccent,
+                ),
               ),
-            ),
-          ],
+              Transform.translate(
+                offset:
+                    Offset(radius * cos(8 * pi / 4), radius * sin(8 * pi / 4)),
+                child: Dot(
+                  radius: 7.0,
+                  color: Colors.redAccent,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

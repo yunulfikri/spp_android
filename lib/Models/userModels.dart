@@ -73,16 +73,45 @@ class Month {
 }
 
 List<Month> dataB = [
-      Month(nama: 'January', check: false),
-      Month(nama: 'February', check: true),
-      Month(nama: 'Maret', check: false),
-      Month(nama: 'April', check: true),
-      Month(nama: 'May', check: true),
-      Month(nama: 'juni', check: false),
-      Month(nama: 'Juli', check: true),
-      Month(nama: 'Agustus', check: false),
-      Month(nama: 'September', check: true),
-      Month(nama: 'Oktober', check: false),
-      Month(nama: 'November', check: true),
-      Month(nama: 'Desember', check: false),
-    ];
+  Month(nama: 'January', check: false),
+  Month(nama: 'February', check: true),
+  Month(nama: 'Maret', check: false),
+  Month(nama: 'April', check: true),
+  Month(nama: 'May', check: true),
+  Month(nama: 'juni', check: false),
+  Month(nama: 'Juli', check: true),
+  Month(nama: 'Agustus', check: false),
+  Month(nama: 'September', check: true),
+  Month(nama: 'Oktober', check: false),
+  Month(nama: 'November', check: true),
+  Month(nama: 'Desember'),
+];
+
+class Tagih {
+  final String nama;
+  final String jumlah;
+  final int wajibSemua;
+  final int kelas;
+  final int forUser;
+
+  Tagih({
+    this.nama,
+    this.jumlah,
+    this.wajibSemua,
+    this.kelas,
+    this.forUser,
+  });
+}
+
+List<Tagih> daftarTagih = [
+  Tagih(
+    nama: 'Spp',
+    jumlah: '150000',
+    wajibSemua: 1,
+  ),
+  Tagih(
+    nama: 'Pembangunan',
+    jumlah: '150000',
+    kelas: 2,
+  ),
+];

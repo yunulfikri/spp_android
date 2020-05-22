@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:spp_app/Home.dart';
 import 'package:spp_app/Models/api.dart';
 import 'package:spp_app/home2.dart';
+import 'package:spp_app/loader.dart';
 import 'Models/userModels.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -44,6 +45,7 @@ class _LoginPageState extends State<LoginPage> {
     if (_key.currentState.validate()) {
       _key.currentState.save();
       login();
+      print(nisn);
     } else {
       setState(() {
         _autoValidate = true;
@@ -51,17 +53,17 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  savePref(int value, String nisn, nama, jurusan, kelas, imageUrl, alamat,
-      gender) async {
+  savePref(int value, String nisn, nama, jurusan, kelas, alamat,
+      gender, wali) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setInt('value', value);
     preferences.setString('nisn', nisn);
-    preferences.setString('nama_lengkap', nama);
+    preferences.setString('nama', nama);
     preferences.setString('jurusan', jurusan);
     preferences.setString('kelas', kelas);
-    preferences.setString('imageUrl', imageUrl);
     preferences.setString('alamat', alamat);
     preferences.setString('gender', gender);
+    preferences.setString('wali', wali);
   }
 
   var value;
@@ -103,24 +105,20 @@ class _LoginPageState extends State<LoginPage> {
     String namaApi = data['nama_lengkap'];
     String jurusanApi = data['jurusan'];
     String kelasApi = data['kelas'];
-    String imageApi = data['imageUrl'];
     String alamatApi = data['alamat'];
     String genderApi = data['gender'];
+    String waliApi = data['wali'];
     if (value == 1) {
       setState(() {
         _loginStatus = LoginStatus.signIn;
-        savePref(value, nisnApi, namaApi, jurusanApi, kelasApi, imageApi,
-            alamatApi, genderApi);
+        savePref(value, nisnApi, namaApi, jurusanApi, kelasApi,
+            alamatApi, genderApi, waliApi);
       });
     } else {
       setState(() {
         pesan = 'Nisn tidak ditemukan!';
       });
     }
-  }
-
-  Widget asd() {
-    return null;
   }
 
   @override
@@ -262,7 +260,7 @@ class _LoginPageState extends State<LoginPage> {
         );
         break;
       case LoginStatus.signIn:
-        return Home2();
+        return HomePage(signOut);
         break;
     }
   }

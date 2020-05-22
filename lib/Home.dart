@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:spp_app/profile.dart';
+import 'package:spp_app/tagihan.dart';
 import 'Models/userModels.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,15 +19,21 @@ class _HomePageState extends State<HomePage> {
     widget.signOut();
   }
 
-  String nisn = "", name = "", jurusan = '', kelas = '', alamat = '';
+  String nisn = "",
+      nama = "",
+      jurusan = '',
+      kelas = '',
+      gender = '',
+      alamat = '';
 
   getPref() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       nisn = preferences.getString("nisn");
-      name = preferences.getString("nama_lengkap");
+      nama = preferences.getString("nama");
       jurusan = preferences.getString("jurusan");
       kelas = preferences.getString("kelas");
+      gender = preferences.getString('gender');
       alamat = preferences.getString("alamat");
     });
   }
@@ -37,17 +45,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   bool sort = true;
-
-  List nama = [
-    DataColumn(
-      label: Text("Name"),
-      numeric: false,
-    ),
-    DataColumn(
-      label: Text("Weapons"),
-      numeric: false,
-    ),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -61,13 +58,13 @@ class _HomePageState extends State<HomePage> {
           children: <Widget>[
             UserAccountsDrawerHeader(
               accountName: Text(
-                "$name",
+                "$nama",
                 style: TextStyle(fontSize: 18),
               ),
               accountEmail: Text('$nisn'),
               currentAccountPicture: CircleAvatar(
                 backgroundImage: AssetImage(
-                  'images/placeholder.png',
+                  gender == 'L' ? 'images/man.png' : 'images/girl.png',
                 ),
               ),
               decoration: BoxDecoration(
@@ -77,12 +74,16 @@ class _HomePageState extends State<HomePage> {
             ListTile(
               leading: Icon(Icons.verified_user),
               title: Text('Profile'),
-              onTap: () => {Navigator.of(context).pop()},
+              onTap: () => {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (BuildContext) => Profile()))
+              },
             ),
             ListTile(
               leading: Icon(Icons.border_color),
               title: Text('Tagihan'),
-              onTap: () => {Navigator.of(context).pop()},
+              onTap: () => { Navigator.push(context,
+                    MaterialPageRoute(builder: (BuildContext) => Tagihan()))},
             ),
             ListTile(
               leading: Icon(Icons.attach_money),
@@ -132,7 +133,9 @@ class _HomePageState extends State<HomePage> {
                           // color: Colors.greenAccent,
                           borderRadius: BorderRadius.circular(50),
                           image: DecorationImage(
-                            image: AssetImage('images/placeholder.png'),
+                            image: AssetImage(
+                              gender == 'L' ? 'images/man.png' : 'images/girl.png',
+                            ),
                             fit: BoxFit.fitHeight,
                           ),
                         ),
@@ -160,7 +163,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                               Text(
-                                '$name',
+                                '$nama',
                                 style: TextStyle(fontSize: 15),
                               ),
                             ],
