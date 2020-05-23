@@ -54,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   savePref(int value, String nisn, nama, jurusan, kelas, alamat,
-      gender, wali) async {
+      gender, wali, yatim) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setInt('value', value);
     preferences.setString('nisn', nisn);
@@ -64,6 +64,7 @@ class _LoginPageState extends State<LoginPage> {
     preferences.setString('alamat', alamat);
     preferences.setString('gender', gender);
     preferences.setString('wali', wali);
+    preferences.setString('yatim', yatim);
   }
 
   var value;
@@ -108,11 +109,12 @@ class _LoginPageState extends State<LoginPage> {
     String alamatApi = data['alamat'];
     String genderApi = data['gender'];
     String waliApi = data['wali'];
+    String yatimApi = data['yatim'];
     if (value == 1) {
       setState(() {
         _loginStatus = LoginStatus.signIn;
         savePref(value, nisnApi, namaApi, jurusanApi, kelasApi,
-            alamatApi, genderApi, waliApi);
+            alamatApi, genderApi, waliApi, yatimApi);
       });
     } else {
       setState(() {

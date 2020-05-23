@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spp_app/profile.dart';
 import 'package:spp_app/tagihan.dart';
+import 'package:spp_app/transaksi.dart';
 import 'Models/userModels.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -88,7 +89,8 @@ class _HomePageState extends State<HomePage> {
             ListTile(
               leading: Icon(Icons.attach_money),
               title: Text('Transaksi'),
-              onTap: () => {Navigator.of(context).pop()},
+              onTap: () => {Navigator.push(context,
+                    MaterialPageRoute(builder: (BuildContext) => Transaksi()))},
             ),
             ListTile(
               leading: Icon(Icons.exit_to_app),

@@ -1,45 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:spp_app/profile.dart';
-import 'Models/userModels.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:spp_app/Models/userModels.dart';
 
-class Tagihan extends StatefulWidget {
+class Transaksi extends StatefulWidget {
   @override
-  _TagihanState createState() => _TagihanState();
+  _TransaksiState createState() => _TransaksiState();
 }
 
-class _TagihanState extends State<Tagihan> {
-  String nisn = "",
-      nama = "",
-      jurusan = '',
-      kelas = '',
-      gender = '',
-      alamat = '';
-
-  getPref() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    setState(() {
-      nisn = preferences.getString("nisn");
-      nama = preferences.getString("nama");
-      jurusan = preferences.getString("jurusan");
-      kelas = preferences.getString("kelas");
-      gender = preferences.getString('gender');
-      alamat = preferences.getString("alamat");
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getPref();
-  }
-
-  bool sort = true;
-
+class _TransaksiState extends State<Transaksi> {
   @override
   Widget build(BuildContext context) {
-    // var item = widget.data;
-    // var nisn = item.nisn.toString();
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -59,7 +28,7 @@ class _TagihanState extends State<Tagihan> {
                     onPressed: () => Navigator.of(context).pop(),
                   ),
                   Text(
-                    'Data Tagihan',
+                    'Data Transaksi',
                     style: TextStyle(
                       fontSize: 17,
                       color: Colors.black,
@@ -70,7 +39,7 @@ class _TagihanState extends State<Tagihan> {
               ),
             ),
             Container(
-              height: 350,
+              height: 400,
               width: MediaQuery.of(context).size.width,
               margin: EdgeInsets.only(left: 20, right: 20),
               decoration: BoxDecoration(
@@ -82,7 +51,7 @@ class _TagihanState extends State<Tagihan> {
                 itemCount: 1,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
-                    height: 300,
+                    height: MediaQuery.of(context).size.height,
                     width: MediaQuery.of(context).size.width,
                     child: ListView(
                       children: <Widget>[
@@ -163,76 +132,6 @@ class _TagihanState extends State<Tagihan> {
                         ),
                       ],
                     ),
-                  );
-                },
-              ),
-            ),
-            Container(
-              height: 350,
-              width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-              decoration: BoxDecoration(
-                color: Colors.blue[100],
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: ListView.builder(
-                itemCount: 1,
-                itemBuilder: (BuildContext context, int index) {
-                  return DataTable(
-                    rows: dataB
-                        .map(
-                          (months) =>
-                              DataRow(selected: dataB.contains(dataB), cells: [
-                            DataCell(
-                              Text(
-                                months.nama,
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  color: Colors.black,
-                                  // fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            DataCell(
-                              Icon(
-                                months.check == true
-                                    ? Icons.check
-                                    : Icons.close,
-                                size: 30,
-                                color: months.check == true
-                                    ? Colors.blue[900]
-                                    : Colors.red,
-                              ),
-                            ),
-                          ]),
-                        )
-                        .toList(),
-                    columns: [
-                      DataColumn(
-                        label: Text(
-                          "Bulan",
-                          style: TextStyle(
-                            letterSpacing: 1,
-                            fontSize: 20,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        numeric: false,
-                      ),
-                      DataColumn(
-                        label: Text(
-                          "Check",
-                          style: TextStyle(
-                            letterSpacing: 1,
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        numeric: false,
-                      ),
-                    ],
                   );
                 },
               ),

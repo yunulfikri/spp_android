@@ -13,7 +13,8 @@ class _ProfileState extends State<Profile> {
       kelas = '',
       gender = '',
       alamat = '',
-      wali = '';
+      wali = '',
+      yatim = '';
 
   getPref() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -25,6 +26,7 @@ class _ProfileState extends State<Profile> {
       gender = preferences.getString('gender');
       alamat = preferences.getString("alamat");
       wali = preferences.getString('wali');
+      yatim = preferences.getString('yatim');
     });
   }
 
@@ -54,126 +56,171 @@ class _ProfileState extends State<Profile> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 10, left: 10),
-            child: Row(
-              children: <Widget>[
-                Text(
-                  'Nama : ',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  nama,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ],
+            margin: EdgeInsets.only(left: 10, top: 20),
+            child: Text(
+              'Data Siswa :',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 10, left: 10),
-            child: Row(
-              children: <Widget>[
-                Text(
-                  'Jurusan : ',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  jurusan,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ],
+            margin: EdgeInsets.all(10),
+            padding: EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.blueGrey,
+                width: 2.0
+              ),
             ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 10, left: 10),
-            child: Row(
+            child: Column(
               children: <Widget>[
-                Text(
-                  'Kelas : ',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                Container(
+                  margin: EdgeInsets.only(left: 10),
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                        'Nama : ',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        nama,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Text(
-                  kelas,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w400,
+                Container(
+                  margin: EdgeInsets.only(top: 10, left: 10),
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                        'Jurusan : ',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        jurusan,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 10, left: 10),
-            child: Row(
-              children: <Widget>[
-                Text(
-                  'Jenis Kelamin : ',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                Container(
+                  margin: EdgeInsets.only(top: 10, left: 10),
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                        'Kelas : ',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        kelas,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Text(
-                  gender == 'L' ? 'Laki-Laki' : 'Perempuan',
-                  style: TextStyle(
-                    fontSize: 20,
-                   fontWeight: FontWeight.w400,
+                Container(
+                  margin: EdgeInsets.only(top: 10, left: 10),
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                        'Status : ',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                      yatim == '0' ? 'Non Yatim' : 'Yatim'  ,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 10, left: 10),
-            child: Row(
-              children: <Widget>[
-                Text(
-                  'Alamat : ',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                Container(
+                  margin: EdgeInsets.only(top: 10, left: 10),
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                        'Jenis Kelamin : ',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        gender == 'L' ? 'Laki-Laki' : 'Perempuan',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Text(
-                  alamat,
-                  style: TextStyle(
-                    fontSize: 20,
-                   fontWeight: FontWeight.w400,
+                Container(
+                  margin: EdgeInsets.only(top: 10, left: 10),
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                        'Alamat : ',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        alamat,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 10, left: 10),
-            child: Row(
-              children: <Widget>[
-                Text(
-                  'Wali Murid : ',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  wali,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w400,
+                Container(
+                  margin: EdgeInsets.only(top: 10, left: 10),
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                        'Wali Murid : ',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        wali,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],

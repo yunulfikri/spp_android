@@ -1,3 +1,3 @@
 class BaseUrl {
-  static String login = "http://10.114.66.211/spp/login.php";
+  static String login = "http://192.168.43.24/spp/login.php";
 }
