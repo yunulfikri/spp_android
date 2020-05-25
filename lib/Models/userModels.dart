@@ -115,3 +115,17 @@ List<Tagih> daftarTagih = [
     kelas: 2,
   ),
 ];
+
+class TagihanModels{
+  final String id;
+  final String siswa_id;
+  final String tagihan_id;
+  final double potongan;
+  final String is_lunas;
+  final String keterangan;
+  final String nama;
+  final String tagihan;
+  final String jumlah;
+
+  TagihanModels(this.id, this.siswa_id, this.tagihan_id, this.potongan, this.is_lunas, this.keterangan, this.nama, this.tagihan, this.jumlah);
+}
