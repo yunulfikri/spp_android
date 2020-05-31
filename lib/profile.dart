@@ -69,10 +69,7 @@ class _ProfileState extends State<Profile> {
             margin: EdgeInsets.all(10),
             padding: EdgeInsets.all(5),
             decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.blueGrey,
-                width: 2.0
-              ),
+              border: Border.all(color: Colors.blueGrey, width: 2.0),
             ),
             child: Column(
               children: <Widget>[
@@ -151,7 +148,7 @@ class _ProfileState extends State<Profile> {
                         ),
                       ),
                       Text(
-                      yatim == '0' ? 'Non Yatim' : 'Yatim'  ,
+                        yatim == '0' ? 'Non Yatim' : 'Yatim',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w400,
@@ -227,12 +224,6 @@ class _ProfileState extends State<Profile> {
             ),
           ),
         ],
-      ),
-      floatingActionButton: IconButton(
-        icon: Icon(Icons.edit),
-        color: Colors.blueAccent,
-        onPressed: () {},
-        iconSize: 30,
       ),
     );
   }

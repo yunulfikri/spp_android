@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:spp_app/Home.dart';
 import 'package:spp_app/Models/api.dart';
-import 'package:spp_app/home2.dart';
-import 'package:spp_app/loader.dart';
-import 'Models/userModels.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -36,8 +33,6 @@ class _LoginPageState extends State<LoginPage> {
 
   String pesan;
 
-  // nisnLogin = int.parse(nis);
-
   bool _autoValidate = false;
   final _key = GlobalKey<FormState>();
 
@@ -53,8 +48,8 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  savePref(int value, String nisn, nama, jurusan, kelas, alamat,
-      gender, wali, yatim) async {
+  savePref(int value, String nisn, nama, jurusan, kelas, alamat, gender, wali,
+      yatim) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setInt('value', value);
     preferences.setString('nisn', nisn);
@@ -113,8 +108,8 @@ class _LoginPageState extends State<LoginPage> {
     if (value == 1) {
       setState(() {
         _loginStatus = LoginStatus.signIn;
-        savePref(value, nisnApi, namaApi, jurusanApi, kelasApi,
-            alamatApi, genderApi, waliApi, yatimApi);
+        savePref(value, nisnApi, namaApi, jurusanApi, kelasApi, alamatApi,
+            genderApi, waliApi, yatimApi);
       });
     } else {
       setState(() {

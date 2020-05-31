@@ -76,21 +76,33 @@ class _HomePageState extends State<HomePage> {
               leading: Icon(Icons.verified_user),
               title: Text('Profile'),
               onTap: () => {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (BuildContext) => Profile()))
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Profile()))
               },
             ),
             ListTile(
               leading: Icon(Icons.border_color),
               title: Text('Tagihan'),
-              onTap: () => { Navigator.push(context,
-                    MaterialPageRoute(builder: (BuildContext) => Tagihan()))},
+              onTap: () => {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Tagihan(
+                              nis: nisn,
+                            )))
+              },
             ),
             ListTile(
               leading: Icon(Icons.attach_money),
               title: Text('Transaksi'),
-              onTap: () => {Navigator.push(context,
-                    MaterialPageRoute(builder: (BuildContext) => Transaksi()))},
+              onTap: () => {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Transaksi(
+                              nis: nisn,
+                            )))
+              },
             ),
             ListTile(
               leading: Icon(Icons.exit_to_app),
@@ -136,7 +148,9 @@ class _HomePageState extends State<HomePage> {
                           borderRadius: BorderRadius.circular(50),
                           image: DecorationImage(
                             image: AssetImage(
-                              gender == 'L' ? 'images/man.png' : 'images/girl.png',
+                              gender == 'L'
+                                  ? 'images/man.png'
+                                  : 'images/girl.png',
                             ),
                             fit: BoxFit.fitHeight,
                           ),

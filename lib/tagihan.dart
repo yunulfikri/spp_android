@@ -1,14 +1,15 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:spp_app/Models/api.dart';
-import 'package:spp_app/profile.dart';
 import 'Models/userModels.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'dart:async';
 
 class Tagihan extends StatefulWidget {
+  final String nis;
+  Tagihan({this.nis});
   @override
   _TagihanState createState() => _TagihanState();
 }
@@ -36,35 +37,37 @@ class _TagihanState extends State<Tagihan> {
     });
   }
 
-  viewData() async {
+  Future viewData() async {
     list.clear();
     setState(() {
       loading = true;
     });
-    final response = await http.get(BaseUrl.tagihan);
+    final response = await http.post(
+      BaseUrl.tagihan,
+      headers: {"Accept": "application/json"},
+      body: {
+        'nisn': widget.nis,
+      },
+    );
 
-    if (response.statusCode == 2) {
-    } else {
-      final data = jsonDecode(response.body);
+    this.setState(() {
+      final data = jsonDecode(response.body.toString());
       data.forEach((api) {
         final ab = TagihanModels(
-          api['id'],
-          api['siswa_id'],
-          api['tagihan_id'],
-          api['potongan'],
-          api['is_lunas'],
-          api['keterangan'],
           api['nama'],
-          api['tagihan'],
           api['jumlah'],
+          api['diskon'],
+          api['total'],
+          api['is_lunas'].toString(),
+          api['created_at'],
+          api['keterangan'],
         );
-
         list.add(ab);
       });
       setState(() {
         loading = false;
       });
-    }
+    });
   }
 
   @override
@@ -74,26 +77,102 @@ class _TagihanState extends State<Tagihan> {
     viewData();
   }
 
-  bool sort = true;
-
-  Future<Void> _neverSatisfied(BuildContext context) {
+  Future<void> _neverSatisfied(
+    BuildContext context,
+    var nama,
+    keterangan,
+    isLunas,
+    diskon,
+    jumlah,
+    total,
+  ) {
     return showDialog(
       context: context,
       barrierDismissible: true, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Rewind and remember'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('You will never be satisfied.'),
-                Text('You\’re like me. I’m never satisfied.'),
-              ],
+          title: Row(
+            children: <Widget>[
+              Text(
+                nama,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          content: Container(
+            width: MediaQuery.of(context).size.width,
+            child: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text(
+                    'Status :',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  isLunas == '0'
+                      ? Text(
+                          'Belum Lunas',
+                          style: TextStyle(
+                            color: Colors.red,
+                          ),
+                        )
+                      : Text(
+                          'Lunas',
+                          style: TextStyle(
+                            color: Colors.blue,
+                          ),
+                        ),
+                  SizedBox(height: 10),
+                  Text(
+                    'Jumlah :',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    jumlah,
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'Diskon :',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    diskon,
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'Total :',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    total,
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'Keterangan :',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    keterangan == "" ? 'Belum ada keterangan' : keterangan,
+                  ),
+                  SizedBox(height: 10),
+                ],
+              ),
             ),
           ),
           actions: <Widget>[
             FlatButton(
-              child: Text('Regret'),
+              child: Text('Close'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -106,10 +185,7 @@ class _TagihanState extends State<Tagihan> {
 
   @override
   Widget build(BuildContext context) {
-    // var item = widget.data;
-    // var nisn = item.nisn.toString();
     return Scaffold(
-      // appBar: AppBar(title: Text(nama),),
       body: loading
           ? Center(
               child: CircularProgressIndicator(),
@@ -155,12 +231,12 @@ class _TagihanState extends State<Tagihan> {
                       itemCount: list.length,
                       itemBuilder: (context, index) {
                         final x = list[index];
-                        return x.nama == nama
+                        return x.isLunas == "0"
                             ? Container(
                                 margin: EdgeInsets.all(10),
                                 padding: EdgeInsets.all(10),
                                 height: 70,
-                                color: Colors.grey[100],
+                                color: Colors.white,
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -170,7 +246,7 @@ class _TagihanState extends State<Tagihan> {
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
-                                          x.tagihan,
+                                          x.nama,
                                           style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 18,
@@ -181,7 +257,7 @@ class _TagihanState extends State<Tagihan> {
                                           height: 6,
                                         ),
                                         Text(
-                                          '20-20-2020',
+                                          x.createdAt,
                                           style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 16,
@@ -206,7 +282,15 @@ class _TagihanState extends State<Tagihan> {
                                           ),
                                           iconSize: 30,
                                           onPressed: () {
-                                            _neverSatisfied(context);
+                                            _neverSatisfied(
+                                              context,
+                                              x.nama,
+                                              x.keterangan,
+                                              x.isLunas,
+                                              x.diskon,
+                                              x.jumlah,
+                                              x.total,
+                                            );
                                           },
                                         ),
                                       ],

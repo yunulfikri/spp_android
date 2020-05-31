@@ -106,7 +106,7 @@ class Tagih {
 List<Tagih> daftarTagih = [
   Tagih(
     nama: 'Spp',
-    jumlah: '150000',
+    jumlah: '160000',
     wajibSemua: 1,
   ),
   Tagih(
@@ -116,16 +116,41 @@ List<Tagih> daftarTagih = [
   ),
 ];
 
-class TagihanModels{
-  final String id;
-  final String siswa_id;
-  final String tagihan_id;
-  final double potongan;
-  final String is_lunas;
-  final String keterangan;
+class TagihanModels {
   final String nama;
-  final String tagihan;
   final String jumlah;
+  final String diskon;
+  final String total;
+  final String isLunas;
+  final String createdAt;
+  final String keterangan;
 
-  TagihanModels(this.id, this.siswa_id, this.tagihan_id, this.potongan, this.is_lunas, this.keterangan, this.nama, this.tagihan, this.jumlah);
+  TagihanModels(
+    this.nama,
+    this.jumlah,
+    this.diskon,
+    this.total,
+    this.isLunas,
+    this.createdAt,
+    this.keterangan,
+  );
+}
+class TransaksiModels {
+  final String nama;
+  final String jumlah;
+  final String diskon;
+  final String total;
+  final String isLunas;
+  final String createdAt;
+  final String keterangan;
+
+  TransaksiModels(
+    this.nama,
+    this.jumlah,
+    this.diskon,
+    this.total,
+    this.isLunas,
+    this.createdAt,
+    this.keterangan,
+  );
 }
