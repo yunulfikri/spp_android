@@ -40,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
     if (_key.currentState.validate()) {
       _key.currentState.save();
       login();
-      print(nisn);
+      // print(nisn);
     } else {
       setState(() {
         _autoValidate = true;
@@ -48,27 +48,27 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  savePref(int value, String nisn, nama, jurusan, kelas, alamat, gender, wali,
-      yatim) async {
+  savePref(
+    String nisn,
+    nama,
+    jurusan,
+    kelas,
+    gender,
+  ) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setInt('value', value);
     preferences.setString('nisn', nisn);
     preferences.setString('nama', nama);
+    preferences.setString('gender', gender);
     preferences.setString('jurusan', jurusan);
     preferences.setString('kelas', kelas);
-    preferences.setString('alamat', alamat);
-    preferences.setString('gender', gender);
-    preferences.setString('wali', wali);
-    preferences.setString('yatim', yatim);
   }
 
-  var value;
   getPref() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
-      value = preferences.getInt('value');
+      nisn = preferences.getString('nisn');
 
-      _loginStatus = value == 1 ? LoginStatus.signIn : LoginStatus.notSignIn;
+      _loginStatus = nisn == null ? LoginStatus.notSignIn : LoginStatus.signIn;
     });
   }
 
@@ -81,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
   signOut() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
-      preferences.setInt('value', null);
+      preferences.setString('nisn', null);
       preferences.commit();
       _loginStatus = LoginStatus.notSignIn;
       pesan = null;
@@ -91,29 +91,32 @@ class _LoginPageState extends State<LoginPage> {
   Future login() async {
     final response = await http.post(
       BaseUrl.login,
+      headers: {"Accept": "application/json"},
       body: {
         'nisn': nisn,
       },
     );
+    print(response.request);
     final data = jsonDecode(response.body);
-    int value = data['value'];
     String nisnApi = data['nisn'];
-    String namaApi = data['nama_lengkap'];
+    String namaApi = data['nama'];
     String jurusanApi = data['jurusan'];
     String kelasApi = data['kelas'];
-    String alamatApi = data['alamat'];
     String genderApi = data['gender'];
-    String waliApi = data['wali'];
-    String yatimApi = data['yatim'];
-    if (value == 1) {
+    if (response.statusCode != 200) {
       setState(() {
-        _loginStatus = LoginStatus.signIn;
-        savePref(value, nisnApi, namaApi, jurusanApi, kelasApi, alamatApi,
-            genderApi, waliApi, yatimApi);
+        pesan="Login Gagal";
       });
     } else {
-      setState(() {
-        pesan = 'Nisn tidak ditemukan!';
+      this.setState(() {
+        _loginStatus = LoginStatus.signIn;
+        savePref(
+          nisnApi,
+          namaApi,
+          jurusanApi,
+          kelasApi,
+          genderApi,
+        );
       });
     }
   }
@@ -164,20 +167,13 @@ class _LoginPageState extends State<LoginPage> {
                       children: <Widget>[
                         TextFormField(
                           keyboardType: TextInputType.number,
-                          inputFormatters: <TextInputFormatter>[
-                            WhitelistingTextInputFormatter.digitsOnly
-                          ],
-                          // onSaved: (user) => nisn = user,
+                          onSaved: (user) => nisn = user,
                           validator: (e) {
                             if (e.isEmpty) {
                               return 'Masukkan Nisn Anda';
                             } else if (e.length < 5) {
                               return 'Minimal 6 angka';
                             }
-                            final isDigitsOnly = int.tryParse(nisn = e);
-                            return isDigitsOnly == null
-                                ? 'Input needs to be digits only'
-                                : null;
                           },
                           decoration: InputDecoration(
                             labelText: "Masukkan Nisn",
@@ -257,7 +253,7 @@ class _LoginPageState extends State<LoginPage> {
         );
         break;
       case LoginStatus.signIn:
-        return HomePage(signOut);
+        return HomePage(signOut,nisn);
         break;
     }
   }

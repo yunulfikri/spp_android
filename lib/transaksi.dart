@@ -18,12 +18,7 @@ class _TransaksiState extends State<Transaksi> {
   List list = List<TransaksiModels>();
   var loading = false;
 
-  String nisn = "",
-      nama = "",
-      jurusan = '',
-      kelas = '',
-      gender = '',
-      alamat = '';
+  String nisn = "", nama = "", jurusan = '', kelas = '', gender = '';
 
   getPref() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -33,7 +28,6 @@ class _TransaksiState extends State<Transaksi> {
       jurusan = preferences.getString("jurusan");
       kelas = preferences.getString("kelas");
       gender = preferences.getString('gender');
-      alamat = preferences.getString("alamat");
     });
   }
 

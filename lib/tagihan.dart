@@ -18,12 +18,7 @@ class _TagihanState extends State<Tagihan> {
   List list = List<TagihanModels>();
   var loading = false;
 
-  String nisn = "",
-      nama = "",
-      jurusan = '',
-      kelas = '',
-      gender = '',
-      alamat = '';
+  String nisn = "", nama = "", jurusan = '', kelas = '', gender = '';
 
   getPref() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -33,7 +28,6 @@ class _TagihanState extends State<Tagihan> {
       jurusan = preferences.getString("jurusan");
       kelas = preferences.getString("kelas");
       gender = preferences.getString('gender');
-      alamat = preferences.getString("alamat");
     });
   }
 

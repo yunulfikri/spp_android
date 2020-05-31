@@ -1,4 +1,4 @@
 class BaseUrl {
-  static String login = "http://192.168.43.24/spp/login.php";
-  static String tagihan = "http://192.168.43.24:8000/api/riwayat";
+  static String login = "http://10.114.24.50:8000/api/ceknisn";
+  static String tagihan = "http://10.114.24.50:8000/api/riwayat";
 }
